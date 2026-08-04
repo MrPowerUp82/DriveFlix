@@ -133,9 +133,16 @@ main {
 .player-wrap iframe {
   width: 100%;
   aspect-ratio: 16 / 9;
+  min-height: 220px;
   border: none;
   border-radius: var(--radius);
   background: black;
+}
+
+@media (max-width: 480px) {
+  .player-wrap iframe {
+    min-height: 240px;
+  }
 }
 
 .player-note {
