@@ -207,12 +207,14 @@ function openSeriesForm(existingSeries) {
       });
 
       block.querySelector(`[data-remove-season="${sIdx}"]`).addEventListener('click', () => {
+        syncDraftFields();
         draft.seasons.splice(sIdx, 1);
         draft.seasons.forEach((s, i) => { s.season = i + 1; });
         renderForm();
       });
 
       block.querySelector(`[data-add-episode="${sIdx}"]`).addEventListener('click', () => {
+        syncDraftFields();
         const titleInput = document.getElementById(`new-ep-title-${sIdx}`);
         const linkInput = document.getElementById(`new-ep-link-${sIdx}`);
         const title = titleInput.value.trim();
@@ -227,6 +229,7 @@ function openSeriesForm(existingSeries) {
 
       block.querySelectorAll('[data-remove-episode]').forEach(btn => {
         btn.addEventListener('click', () => {
+          syncDraftFields();
           const [sI, eI] = btn.dataset.removeEpisode.split(':').map(Number);
           draft.seasons[sI].episodes.splice(eI, 1);
           draft.seasons[sI].episodes.forEach((ep, i) => { ep.episode = i + 1; });
@@ -236,6 +239,7 @@ function openSeriesForm(existingSeries) {
     });
 
     document.getElementById('add-season-btn').addEventListener('click', () => {
+      syncDraftFields();
       draft.seasons.push({ season: draft.seasons.length + 1, episodes: [] });
       renderForm();
     });
@@ -264,6 +268,17 @@ function openSeriesForm(existingSeries) {
       closeForm();
       renderAdminList();
     });
+  }
+
+  // Helper to sync top-level form fields from DOM back to draft
+  // before re-rendering (prevents field values from being wiped on season/episode mutations)
+  function syncDraftFields() {
+    const titleEl = document.getElementById('series-title');
+    const posterEl = document.getElementById('series-poster');
+    const descEl = document.getElementById('series-description');
+    if (titleEl) draft.title = titleEl.value;
+    if (posterEl) draft.poster = posterEl.value;
+    if (descEl) draft.description = descEl.value;
   }
 
   renderForm();
