@@ -31,6 +31,14 @@
       "poster": "https://br.web.img3.acsta.net/c_310_420/medias/nmedia/18/95/59/60/20417256.jpg",
       "description": "Harry Potter é um garoto órfão que vive infeliz com seus tios, os Dursleys. Ele recebe uma carta contendo um convite para ingressar em Hogwarts, uma famosa escola especializada em formar jovens bruxos. Inicialmente, Harry é impedido de ler a carta por seu tio, mas logo recebe a visita de Hagrid, o guarda-caça de Hogwarts, que chega para levá-lo até a escola. Harry adentra um mundo mágico que jamais imaginara, vivendo diversas aventuras com seus novos amigos, Rony Weasley e Hermione Granger.",
       "driveId": "1yiaphZc0MNzGVKZ7JKCDpYBDU56JDQcd"
+    },
+    {
+      "id": "homem-aranha-um-novo-dia-5c1rbv",
+      "title": "Homem-Aranha: Um Novo Dia",
+      "year": 2026,
+      "poster": "https://cinemaeafins.com.br/wp-content/uploads/2026/06/homem-aranha-um-novo-dia-poster.webp",
+      "description": "Após o mundo ter esquecido seu nome, Peter Parker inicia um novo capítulo em sua vida, conciliando as aulas da faculdade, um trabalho de meio período e sua responsabilidade como o Homem-Aranha. Mas quando uma força misteriosa começa a desmantelar a cidade de dentro para fora, Peter se vê preso entre inimigos poderosos, legados antigos e aliados inesperados.",
+      "driveId": "1U01ql-2lvhw4Img5RkfBt9ppRODhvbOx"
     }
   ],
   "series": [
@@ -52,6 +60,61 @@
               "episode": 2,
               "title": "Coisas que as Moléculas Fazem",
               "driveId": "1CHW8h37v4ZJ5RRJirDcUDLcZKNxnwxK0"
+            },
+            {
+              "episode": 3,
+              "title": "Quando o Conhecimento Venceu o Medo",
+              "driveId": "1WoUSSI1CoVb9KEL55rMNRvcLGOaB1CHm"
+            },
+            {
+              "episode": 4,
+              "title": "Um Céu Cheio de Fantasmas",
+              "driveId": "1fx0EM0H5yIPcbjl1T_8UXhm4LKhXHpGm"
+            },
+            {
+              "episode": 5,
+              "title": "Abrir as Portas à Ciência",
+              "driveId": "1h9_KVQ020hVKbL-Y6i-J9DBs7erS5SJX"
+            },
+            {
+              "episode": 6,
+              "title": "Aprofundando",
+              "driveId": "1Ptyx77YDcNKdVo5kUEwe82JZogK4zicg"
+            },
+            {
+              "episode": 7,
+              "title": "Sala Limpa",
+              "driveId": "15OXY343P7CRPTXDBL8VT8PkcN8DBVauF"
+            },
+            {
+              "episode": 8,
+              "title": "As Irmãs do Sol",
+              "driveId": "1clSJ3yg0XCllQ-9Cz_libc2PU05UuStF"
+            },
+            {
+              "episode": 9,
+              "title": "Os Mundos Perdidos do Planeta Terra",
+              "driveId": "1dCG6JJgrb0ANGfD0WvdMopbq-Wnaskbb"
+            },
+            {
+              "episode": 10,
+              "title": "O Visionário da Eletricidade",
+              "driveId": "1Kk0ryIX8JZhxyHANjjZQFRbSLg8sySFP"
+            },
+            {
+              "episode": 11,
+              "title": "Os Imortais",
+              "driveId": "1tfkWddm_uvJ2CSPcp97w2vkn2n-i79B0"
+            },
+            {
+              "episode": 12,
+              "title": "O Novo Mundo Livre",
+              "driveId": "1GwO3hoSFbM9GZbdKhIzEPLoJ9Ni_tVxH"
+            },
+            {
+              "episode": 13,
+              "title": "Sem Medo do Escuro",
+              "driveId": "1vEbxUGsoTYC8Gw84NmGCnSZ2zdexFXVk"
             }
           ]
         }
