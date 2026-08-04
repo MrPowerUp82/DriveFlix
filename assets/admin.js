@@ -308,9 +308,23 @@ async function initAdmin() {
   });
 }
 
+function exportCatalog() {
+  const json = JSON.stringify(state, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'catalog.json';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
 initAdmin();
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('add-movie-btn').addEventListener('click', () => openMovieForm(null));
   document.getElementById('add-series-btn').addEventListener('click', () => openSeriesForm(null));
+  document.getElementById('export-btn').addEventListener('click', exportCatalog);
 });
