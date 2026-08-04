@@ -208,6 +208,7 @@ function openSeriesForm(existingSeries) {
 
       block.querySelector(`[data-remove-season="${sIdx}"]`).addEventListener('click', () => {
         draft.seasons.splice(sIdx, 1);
+        draft.seasons.forEach((s, i) => { s.season = i + 1; });
         renderForm();
       });
 
