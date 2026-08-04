@@ -1,6 +1,6 @@
 // Admin-only logic: password gate, in-memory CRUD, JSON export.
 // Not real security — the source is public. Just friction against casual access.
-const ADMIN_PASSWORD = 'changeme';
+const ADMIN_PASSWORD = 'DriverFlix@2025';
 
 let state = { movies: [], series: [] };
 
