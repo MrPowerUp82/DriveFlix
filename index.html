@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Catálogo</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <nav class="top-nav">
+    <a class="brand" href="index.html">Meu Catálogo</a>
+    <input type="search" id="search-input" placeholder="Buscar por título...">
+    <div class="filter-buttons" id="filter-buttons">
+      <button data-filter="all" class="active">Todos</button>
+      <button data-filter="movie">Filmes</button>
+      <button data-filter="series">Séries</button>
+    </div>
+  </nav>
+  <main>
+    <div class="grid" id="catalog-grid"></div>
+  </main>
+</body>
+</html>
