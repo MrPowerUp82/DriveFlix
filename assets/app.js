@@ -15,6 +15,11 @@ async function loadCatalog() {
   }
 }
 
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
 function buildDriveEmbedUrl(driveId) {
   return `https://drive.google.com/file/d/${driveId}/preview`;
 }
@@ -38,8 +43,8 @@ function createCard(item, type) {
   card.href = `titulo.html?id=${encodeURIComponent(item.id)}`;
   const poster = item.poster || '';
   card.innerHTML = `
-    <img src="${poster}" alt="${item.title}" loading="lazy">
-    <div class="card-title">${item.title}</div>
+    <img src="${poster}" alt="${escapeHtml(item.title)}" loading="lazy">
+    <div class="card-title">${escapeHtml(item.title)}</div>
   `;
   return card;
 }
@@ -88,10 +93,10 @@ function renderMovieDetail(container, movie) {
   container.innerHTML = `
     <div class="detail">
       <div class="detail-header">
-        <img src="${movie.poster || ''}" alt="${movie.title}">
+        <img src="${movie.poster || ''}" alt="${escapeHtml(movie.title)}">
         <div>
-          <h1>${movie.title}${movie.year ? ` (${movie.year})` : ''}</h1>
-          <p>${movie.description || ''}</p>
+          <h1>${escapeHtml(movie.title)}${movie.year ? ` (${movie.year})` : ''}</h1>
+          <p>${escapeHtml(movie.description || '')}</p>
         </div>
       </div>
       <div class="player-wrap">
@@ -108,10 +113,10 @@ function renderSeriesDetail(container, series) {
   container.innerHTML = `
     <div class="detail">
       <div class="detail-header">
-        <img src="${series.poster || ''}" alt="${series.title}">
+        <img src="${series.poster || ''}" alt="${escapeHtml(series.title)}">
         <div>
-          <h1>${series.title}</h1>
-          <p>${series.description || ''}</p>
+          <h1>${escapeHtml(series.title)}</h1>
+          <p>${escapeHtml(series.description || '')}</p>
         </div>
       </div>
       <div class="season-tabs" id="season-tabs"></div>

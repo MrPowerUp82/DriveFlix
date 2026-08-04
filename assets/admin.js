@@ -15,7 +15,7 @@ function renderAdminList() {
     const row = document.createElement('div');
     row.className = 'admin-item';
     row.innerHTML = `
-      <span>${movie.title}</span>
+      <span>${escapeHtml(movie.title)}</span>
       <span class="admin-item-actions">
         <button class="btn btn-secondary" data-edit-movie="${movie.id}">Editar</button>
         <button class="btn btn-danger" data-delete-movie="${movie.id}">Remover</button>
@@ -33,7 +33,7 @@ function renderAdminList() {
     const row = document.createElement('div');
     row.className = 'admin-item';
     row.innerHTML = `
-      <span>${series.title}</span>
+      <span>${escapeHtml(series.title)}</span>
       <span class="admin-item-actions">
         <button class="btn btn-secondary" data-edit-series="${series.id}">Editar</button>
         <button class="btn btn-danger" data-delete-series="${series.id}">Remover</button>
@@ -72,7 +72,7 @@ function closeForm() {
 
 function openMovieForm(existingMovie) {
   const modal = document.getElementById('form-modal');
-  const movie = existingMovie || { id: '', title: '', year: '', poster: '', description: '', driveLink: '' };
+  const movie = existingMovie || { id: '', title: '', year: '', poster: '', description: '' };
 
   modal.innerHTML = `
     <div class="season-block">
@@ -80,7 +80,7 @@ function openMovieForm(existingMovie) {
       <div class="form-row">
         <div class="form-field">
           <label>Título</label>
-          <input type="text" id="movie-title" value="${movie.title || ''}">
+          <input type="text" id="movie-title" value="${escapeHtml(movie.title || '')}">
         </div>
         <div class="form-field">
           <label>Ano</label>
@@ -89,11 +89,11 @@ function openMovieForm(existingMovie) {
       </div>
       <div class="form-field">
         <label>Pôster (URL)</label>
-        <input type="text" id="movie-poster" value="${movie.poster || ''}">
+        <input type="text" id="movie-poster" value="${escapeHtml(movie.poster || '')}">
       </div>
       <div class="form-field">
         <label>Sinopse</label>
-        <textarea id="movie-description">${movie.description || ''}</textarea>
+        <textarea id="movie-description">${escapeHtml(movie.description || '')}</textarea>
       </div>
       <div class="form-field">
         <label>Link do Google Drive</label>
@@ -144,6 +144,7 @@ function openMovieForm(existingMovie) {
 }
 
 function deleteMovie(id) {
+  closeForm();
   state.movies = state.movies.filter(m => m.id !== id);
   renderAdminList();
 }
@@ -161,15 +162,15 @@ function openSeriesForm(existingSeries) {
         <h3>${existingSeries ? 'Editar Série' : 'Adicionar Série'}</h3>
         <div class="form-field">
           <label>Título</label>
-          <input type="text" id="series-title" value="${draft.title || ''}">
+          <input type="text" id="series-title" value="${escapeHtml(draft.title || '')}">
         </div>
         <div class="form-field">
           <label>Pôster (URL)</label>
-          <input type="text" id="series-poster" value="${draft.poster || ''}">
+          <input type="text" id="series-poster" value="${escapeHtml(draft.poster || '')}">
         </div>
         <div class="form-field">
           <label>Sinopse</label>
-          <textarea id="series-description">${draft.description || ''}</textarea>
+          <textarea id="series-description">${escapeHtml(draft.description || '')}</textarea>
         </div>
         <div id="seasons-container"></div>
         <button class="btn btn-secondary" id="add-season-btn">+ Adicionar Temporada</button>
@@ -202,7 +203,7 @@ function openSeriesForm(existingSeries) {
       season.episodes.forEach((ep, eIdx) => {
         const row = document.createElement('div');
         row.className = 'episode-item';
-        row.innerHTML = `${ep.episode}. ${ep.title} <button class="btn btn-danger" data-remove-episode="${sIdx}:${eIdx}">Remover</button>`;
+        row.innerHTML = `${ep.episode}. ${escapeHtml(ep.title)} <button class="btn btn-danger" data-remove-episode="${sIdx}:${eIdx}">Remover</button>`;
         epList.appendChild(row);
       });
 
@@ -285,6 +286,7 @@ function openSeriesForm(existingSeries) {
 }
 
 function deleteSeries(id) {
+  closeForm();
   state.series = state.series.filter(s => s.id !== id);
   renderAdminList();
 }
@@ -295,7 +297,7 @@ async function initAdmin() {
   const input = document.getElementById('password-input');
   const error = document.getElementById('password-error');
 
-  document.getElementById('password-submit').addEventListener('click', async () => {
+  async function trySubmit() {
     if (input.value !== ADMIN_PASSWORD) {
       error.style.display = 'block';
       return;
@@ -305,7 +307,10 @@ async function initAdmin() {
     app.style.display = 'block';
     state = await loadCatalog();
     renderAdminList();
-  });
+  }
+
+  document.getElementById('password-submit').addEventListener('click', trySubmit);
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') trySubmit(); });
 }
 
 function exportCatalog() {
