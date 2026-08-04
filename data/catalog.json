@@ -4,9 +4,17 @@
       "id": "the-batman-ktg2ex",
       "title": "The Batman",
       "year": 2022,
-      "poster": "https://www.nookgaming.com/wp-content/uploads/2022/04/The-Batman-2022-Featured-Image-1210x642.jpg.webp",
+      "poster": "https://upload.wikimedia.org/wikipedia/pt/3/38/The_Batman_poster.jpg",
       "description": "Após dois anos espreitando as ruas como Batman, Bruce Wayne se encontra nas profundezas mais sombrias de Gotham City. Com poucos aliados confiáveis, o vigilante solitário se estabelece como a personificação da vingança para a população.",
       "driveId": "1BVSZTP-OZE77fHpHzJVfXG1CJb_0KiPi"
+    },
+    {
+      "id": "homem-aranha-sem-volta-para-casa-v799og",
+      "title": "Homem-Aranha: Sem Volta para Casa",
+      "year": 2021,
+      "poster": "https://upload.wikimedia.org/wikipedia/pt/0/00/Spider-Man_No_Way_Home_poster.jpg",
+      "description": "Peter Parker tem a sua identidade secreta revelada e pede ajuda ao Doutor Estranho. Quando o feitiço para reverter o evento não sai como esperado, o Homem-Aranha e o seu companheiro dos Vingadores precisam enfrentar inimigos de todo o multiverso.",
+      "driveId": "165f01XBSLkjbXzL52DdiWPYGkCjizItN"
     }
   ],
   "series": []
