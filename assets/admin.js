@@ -39,6 +39,8 @@ function renderAdminList() {
         <button class="btn btn-danger" data-delete-series="${series.id}">Remover</button>
       </span>
     `;
+    row.querySelector(`[data-edit-series]`).addEventListener('click', () => openSeriesForm(series));
+    row.querySelector(`[data-delete-series]`).addEventListener('click', () => deleteSeries(series.id));
     seriesList.appendChild(row);
   }
 }
@@ -146,6 +148,131 @@ function deleteMovie(id) {
   renderAdminList();
 }
 
+function openSeriesForm(existingSeries) {
+  const modal = document.getElementById('form-modal');
+  // Work on a deep copy so Cancel doesn't mutate state.
+  const draft = existingSeries
+    ? JSON.parse(JSON.stringify(existingSeries))
+    : { id: '', title: '', poster: '', description: '', seasons: [] };
+
+  function renderForm() {
+    modal.innerHTML = `
+      <div class="season-block">
+        <h3>${existingSeries ? 'Editar Série' : 'Adicionar Série'}</h3>
+        <div class="form-field">
+          <label>Título</label>
+          <input type="text" id="series-title" value="${draft.title || ''}">
+        </div>
+        <div class="form-field">
+          <label>Pôster (URL)</label>
+          <input type="text" id="series-poster" value="${draft.poster || ''}">
+        </div>
+        <div class="form-field">
+          <label>Sinopse</label>
+          <textarea id="series-description">${draft.description || ''}</textarea>
+        </div>
+        <div id="seasons-container"></div>
+        <button class="btn btn-secondary" id="add-season-btn">+ Adicionar Temporada</button>
+        <div class="form-row" style="margin-top:16px;">
+          <button class="btn btn-primary" id="series-save-btn">Salvar</button>
+          <button class="btn btn-secondary" id="series-cancel-btn">Cancelar</button>
+        </div>
+      </div>
+    `;
+
+    const seasonsContainer = document.getElementById('seasons-container');
+    draft.seasons.forEach((season, sIdx) => {
+      const block = document.createElement('div');
+      block.className = 'season-block';
+      block.innerHTML = `
+        <div class="form-row">
+          <strong>Temporada ${season.season}</strong>
+          <button class="btn btn-danger" data-remove-season="${sIdx}">Remover Temporada</button>
+        </div>
+        <div class="episode-list" id="episodes-${sIdx}"></div>
+        <div class="form-row">
+          <input type="text" placeholder="Título do episódio" id="new-ep-title-${sIdx}">
+          <input type="text" placeholder="Link do Google Drive" id="new-ep-link-${sIdx}">
+          <button class="btn btn-secondary" data-add-episode="${sIdx}">+ Episódio</button>
+        </div>
+      `;
+      seasonsContainer.appendChild(block);
+
+      const epList = block.querySelector(`#episodes-${sIdx}`);
+      season.episodes.forEach((ep, eIdx) => {
+        const row = document.createElement('div');
+        row.className = 'episode-item';
+        row.innerHTML = `${ep.episode}. ${ep.title} <button class="btn btn-danger" data-remove-episode="${sIdx}:${eIdx}">Remover</button>`;
+        epList.appendChild(row);
+      });
+
+      block.querySelector(`[data-remove-season="${sIdx}"]`).addEventListener('click', () => {
+        draft.seasons.splice(sIdx, 1);
+        renderForm();
+      });
+
+      block.querySelector(`[data-add-episode="${sIdx}"]`).addEventListener('click', () => {
+        const titleInput = document.getElementById(`new-ep-title-${sIdx}`);
+        const linkInput = document.getElementById(`new-ep-link-${sIdx}`);
+        const title = titleInput.value.trim();
+        const driveId = extractDriveId(linkInput.value.trim());
+        if (!title || !driveId) {
+          alert('Informe o título do episódio e um link válido do Google Drive.');
+          return;
+        }
+        season.episodes.push({ episode: season.episodes.length + 1, title, driveId });
+        renderForm();
+      });
+
+      block.querySelectorAll('[data-remove-episode]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const [sI, eI] = btn.dataset.removeEpisode.split(':').map(Number);
+          draft.seasons[sI].episodes.splice(eI, 1);
+          draft.seasons[sI].episodes.forEach((ep, i) => { ep.episode = i + 1; });
+          renderForm();
+        });
+      });
+    });
+
+    document.getElementById('add-season-btn').addEventListener('click', () => {
+      draft.seasons.push({ season: draft.seasons.length + 1, episodes: [] });
+      renderForm();
+    });
+
+    document.getElementById('series-cancel-btn').addEventListener('click', closeForm);
+
+    document.getElementById('series-save-btn').addEventListener('click', () => {
+      const title = document.getElementById('series-title').value.trim();
+      if (!title) {
+        alert('Título é obrigatório.');
+        return;
+      }
+      const record = {
+        id: existingSeries ? existingSeries.id : makeId(title),
+        title,
+        poster: document.getElementById('series-poster').value.trim(),
+        description: document.getElementById('series-description').value.trim(),
+        seasons: draft.seasons
+      };
+      if (existingSeries) {
+        const idx = state.series.findIndex(s => s.id === existingSeries.id);
+        state.series[idx] = record;
+      } else {
+        state.series.push(record);
+      }
+      closeForm();
+      renderAdminList();
+    });
+  }
+
+  renderForm();
+}
+
+function deleteSeries(id) {
+  state.series = state.series.filter(s => s.id !== id);
+  renderAdminList();
+}
+
 async function initAdmin() {
   const gate = document.getElementById('password-gate');
   const app = document.getElementById('admin-app');
@@ -169,4 +296,5 @@ initAdmin();
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('add-movie-btn').addEventListener('click', () => openMovieForm(null));
+  document.getElementById('add-series-btn').addEventListener('click', () => openSeriesForm(null));
 });
