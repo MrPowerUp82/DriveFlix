@@ -70,3 +70,105 @@ function renderGrid(catalog, container, options) {
     container.appendChild(createCard(item, type));
   }
 }
+
+function playerNoteHtml() {
+  return `<p class="player-note">Se o vídeo não carregar, verifique se o link do Google Drive está compartilhado como "qualquer pessoa com o link".</p>`;
+}
+
+function showNotFound(container) {
+  container.innerHTML = `
+    <div class="empty-state">
+      <p>Título não encontrado.</p>
+      <a class="btn btn-secondary" href="index.html">Voltar ao catálogo</a>
+    </div>
+  `;
+}
+
+function renderMovieDetail(container, movie) {
+  container.innerHTML = `
+    <div class="detail">
+      <div class="detail-header">
+        <img src="${movie.poster || ''}" alt="${movie.title}">
+        <div>
+          <h1>${movie.title}${movie.year ? ` (${movie.year})` : ''}</h1>
+          <p>${movie.description || ''}</p>
+        </div>
+      </div>
+      <div class="player-wrap">
+        <iframe src="${buildDriveEmbedUrl(movie.driveId)}" allow="autoplay" allowfullscreen></iframe>
+        ${playerNoteHtml()}
+      </div>
+    </div>
+  `;
+}
+
+function renderSeriesDetail(container, series) {
+  const seasons = series.seasons || [];
+
+  container.innerHTML = `
+    <div class="detail">
+      <div class="detail-header">
+        <img src="${series.poster || ''}" alt="${series.title}">
+        <div>
+          <h1>${series.title}</h1>
+          <p>${series.description || ''}</p>
+        </div>
+      </div>
+      <div class="season-tabs" id="season-tabs"></div>
+      <div class="episode-list" id="episode-list"></div>
+      <div class="player-wrap" id="player-wrap">
+        <p class="empty-state">Selecione um episódio.</p>
+      </div>
+    </div>
+  `;
+
+  const seasonTabs = container.querySelector('#season-tabs');
+  const episodeList = container.querySelector('#episode-list');
+  const playerWrap = container.querySelector('#player-wrap');
+
+  function renderPlayer(episode) {
+    playerWrap.innerHTML = `
+      <iframe src="${buildDriveEmbedUrl(episode.driveId)}" allow="autoplay" allowfullscreen></iframe>
+      ${playerNoteHtml()}
+    `;
+  }
+
+  function renderEpisodes(season) {
+    episodeList.innerHTML = '';
+    const episodes = season.episodes || [];
+    episodes.forEach((ep, idx) => {
+      const row = document.createElement('div');
+      row.className = 'episode-item';
+      row.textContent = `${ep.episode}. ${ep.title}`;
+      row.addEventListener('click', () => {
+        for (const el of episodeList.querySelectorAll('.episode-item')) el.classList.remove('active');
+        row.classList.add('active');
+        renderPlayer(ep);
+      });
+      episodeList.appendChild(row);
+      if (idx === 0) {
+        row.classList.add('active');
+        renderPlayer(ep);
+      }
+    });
+  }
+
+  seasons.forEach((season, idx) => {
+    const btn = document.createElement('button');
+    btn.textContent = `Temporada ${season.season}`;
+    btn.addEventListener('click', () => {
+      for (const b of seasonTabs.querySelectorAll('button')) b.classList.remove('active');
+      btn.classList.add('active');
+      renderEpisodes(season);
+    });
+    seasonTabs.appendChild(btn);
+    if (idx === 0) {
+      btn.classList.add('active');
+      renderEpisodes(season);
+    }
+  });
+
+  if (seasons.length === 0) {
+    playerWrap.innerHTML = '<p class="empty-state">Nenhuma temporada cadastrada.</p>';
+  }
+}

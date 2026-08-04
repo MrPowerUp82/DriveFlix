@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes — Meu Catálogo</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <nav class="top-nav">
+    <a class="brand" href="index.html">Meu Catálogo</a>
+  </nav>
+  <main>
+    <div id="detail-container"></div>
+  </main>
+  <script src="assets/app.js"></script>
+  <script>
+    (async function initDetail() {
+      const container = document.getElementById('detail-container');
+      const catalog = await loadCatalog();
+      const id = getQueryParam('id');
+      const found = id ? findItemById(catalog, id) : null;
+
+      if (!found) {
+        showNotFound(container);
+        return;
+      }
+
+      if (found.type === 'movie') {
+        renderMovieDetail(container, found.item);
+      } else {
+        renderSeriesDetail(container, found.item);
+      }
+    })();
+  </script>
+</body>
+</html>
