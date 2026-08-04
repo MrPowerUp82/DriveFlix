@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Meu Catálogo</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="password-gate" id="password-gate">
+    <h2>Área restrita</h2>
+    <div class="form-field">
+      <label for="password-input">Senha</label>
+      <input type="password" id="password-input">
+      <span class="field-error" id="password-error" style="display:none;">Senha incorreta.</span>
+    </div>
+    <button class="btn btn-primary" id="password-submit">Entrar</button>
+  </div>
+
+  <div id="admin-app" style="display:none;">
+    <nav class="top-nav">
+      <span class="brand">Admin — Meu Catálogo</span>
+      <button class="btn btn-primary" id="export-btn">Exportar catalog.json</button>
+    </nav>
+    <main>
+      <div class="form-row">
+        <button class="btn btn-secondary" id="add-movie-btn">+ Adicionar Filme</button>
+        <button class="btn btn-secondary" id="add-series-btn">+ Adicionar Série</button>
+      </div>
+      <h3>Filmes</h3>
+      <div id="movies-list"></div>
+      <h3>Séries</h3>
+      <div id="series-list"></div>
+      <div id="form-modal"></div>
+    </main>
+  </div>
+
+  <script src="assets/app.js"></script>
+  <script src="assets/admin.js"></script>
+</body>
+</html>
