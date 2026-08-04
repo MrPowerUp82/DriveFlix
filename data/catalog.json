@@ -33,5 +33,29 @@
       "driveId": "1yiaphZc0MNzGVKZ7JKCDpYBDU56JDQcd"
     }
   ],
-  "series": []
+  "series": [
+    {
+      "id": "cosmos-a-spacetime-odyssey-ymfj9y",
+      "title": "Cosmos: A Spacetime Odyssey",
+      "poster": "https://m.media-amazon.com/images/M/MV5BYTRlMzk0NzctNTI3Ni00N2E2LWJiNGMtMDdlNjk1YWNmMzkyXkEyXkFqcGc@._V1_.jpg",
+      "description": "A série de documentários explora como nós descobrimos as leis da natureza e achamos nossas coordenadas no espaço e no tempo.",
+      "seasons": [
+        {
+          "season": 1,
+          "episodes": [
+            {
+              "episode": 1,
+              "title": "De Pé na Via Láctea",
+              "driveId": "1o8rutck6rCnlMwCZw314ABd-RIowPr-Q"
+            },
+            {
+              "episode": 2,
+              "title": "Coisas que as Moléculas Fazem",
+              "driveId": "1CHW8h37v4ZJ5RRJirDcUDLcZKNxnwxK0"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
